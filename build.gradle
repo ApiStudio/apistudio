@@ -1,0 +1,19 @@
+group 'lk.egreen.msa.studio'
+version '1.0-SNAPSHOT'
+
+subprojects {
+    apply plugin: 'scala'
+    group 'lk.egreen.msa.studio'
+    version '1.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://repo.spring.io/libs-milestone'
+        }
+    }
+
+    dependencies {
+        compile 'org.scala-lang:scala-library:2.11.1'
+    }
+}

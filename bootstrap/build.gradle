@@ -1,0 +1,60 @@
+//apply plugin: 'scala'
+//group 'lk.egreen.apistudio'
+//version '1.0-SNAPSHOT'
+
+
+apply plugin: 'maven-publish'
+dependencies {
+
+// https://mvnrepository.com/artifact/org.glassfish.grizzly/grizzly-http-all
+    compile group: 'org.glassfish.grizzly', name: 'grizzly-http-all', version: '2.3.25'
+// https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-servlet
+    compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: '2.23.1'
+// https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-grizzly2-http
+    compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-grizzly2-http', version: '2.23.1'
+// https://mvnrepository.com/artifact/org.jboss.weld.se/weld-se-core
+    compile group: 'org.jboss.weld.se', name: 'weld-se-core', version: '3.0.0.Alpha16'
+// https://mvnrepository.com/artifact/org.glassfish.jersey.ext.cdi/jersey-weld2-se
+    compile group: 'org.glassfish.jersey.ext.cdi', name: 'jersey-weld2-se', version: '2.23.1'
+
+    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.6.2'
+// https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.6.2'
+
+    // https://mvnrepository.com/artifact/org.reflections/reflections
+    compile group: 'org.reflections', name: 'reflections', version: '0.9.10'
+// https://mvnrepository.com/artifact/io.swagger/swagger-jaxrs
+    compile group: 'io.swagger', name: 'swagger-jaxrs', version: '1.5.9'
+
+
+}
+dependencies {
+}
+
+jar {
+    baseName = 'apistudio-bootstrap-launcher'
+    version = '0.1.0'
+}
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifact sourceJar {
+                classifier "src"
+            }
+        }
+    }
+}
+publishing {
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url "$buildDir/repo"
+        }
+    }
+}
