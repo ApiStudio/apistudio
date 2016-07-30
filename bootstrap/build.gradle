@@ -28,6 +28,20 @@ dependencies {
     compile group: 'io.swagger', name: 'swagger-jaxrs', version: '1.5.9'
 
 
+
+    // ThymeLeaf
+    // https://mvnrepository.com/artifact/org.glassfish.jersey.ext/jersey-mvc
+    compile group: 'org.glassfish.jersey.ext', name: 'jersey-mvc', version: '2.23.1'
+// https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf
+    compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.1.RELEASE'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.1'
+// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.1'
+
+
+
 }
 dependencies {
 }
