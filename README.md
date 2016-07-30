@@ -61,3 +61,21 @@ public class HelloServiceImpl implements HelloService {
 }
 
 ```
+
+USE HTML5 View in API-STUIO
+
+```
+   @GET
+    @ApiOperation(
+            value = "Say Hello to Server",
+            notes = "Hello Server with Test Server DI",
+            response = String.class,
+            responseContainer = "List"
+    )
+    @RolesAllowed("ADMIN")
+    @Produces(MediaType.TEXT_HTML)
+    public Viewable hello() {
+        helloService.sayHello("dewmal");
+        return new Viewable("../hello");
+    }
+```
