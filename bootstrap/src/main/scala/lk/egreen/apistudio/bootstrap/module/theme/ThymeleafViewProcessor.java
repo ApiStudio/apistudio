@@ -26,10 +26,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-//import org.thymeleaf.templateresolver.TemplateResolver;
-
-//import com.sun.jersey.api.view.Viewable;
-//import com.sun.jersey.spi.template.ViewProcessor;
 
 @Provider
 public class ThymeleafViewProcessor implements TemplateProcessor<String> {
@@ -54,14 +50,14 @@ public class ThymeleafViewProcessor implements TemplateProcessor<String> {
      * コンストラクタ
      */
     public ThymeleafViewProcessor() {
-        LOGGER.info(status);
+//        LOGGER.info(status);
 
     }
 
 
     @PostConstruct
     private void init() {
-        ServletContextTemplateResolver resolver = new ServletContextTemplateResolver(servletContext);
+        ServletContextTemplateResolver resolver = new ApiStudioTemplateResolver(servletContext);
 
 //        ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
         resolver.setPrefix("/view/");
@@ -72,7 +68,7 @@ public class ThymeleafViewProcessor implements TemplateProcessor<String> {
         templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(resolver);
         status=("ThymeleafViewProcessor end");
-        LOGGER.info(status);
+//        LOGGER.info(status);
 
     }
 
@@ -81,14 +77,14 @@ public class ThymeleafViewProcessor implements TemplateProcessor<String> {
      */
     @Override
     public String resolve(String name, MediaType mediaType) {
-        LOGGER.info(status);
-        LOGGER.info(name + " " + mediaType);
+//        LOGGER.info(status);
+//        LOGGER.info(name + " " + mediaType);
         return name;
     }
 
     @Override
     public void writeTo(String templateReference, Viewable viewable, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream out) throws IOException {
-        LOGGER.info(status);
+//        LOGGER.info(status);
 
         WebContext context = new WebContext(request, response, servletContext);
 
