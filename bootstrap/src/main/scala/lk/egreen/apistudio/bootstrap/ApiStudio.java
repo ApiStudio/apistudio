@@ -5,12 +5,8 @@ import lk.egreen.apistudio.bootstrap.externalsource.database.CassandraDataSource
 import lk.egreen.apistudio.bootstrap.filter.AuthFilter;
 import lk.egreen.apistudio.bootstrap.module.theme.ThymeleafViewProcessor;
 import lk.egreen.apistudio.bootstrap.processors.JaxRsAnnotationProcessor;
-import org.apache.cassandra.service.CassandraDaemon;
-import org.apache.cassandra.service.EmbeddedCassandraService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.cassandraunit.CassandraUnit;
-import org.cassandraunit.dataset.json.ClassPathJsonDataSet;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.servlet.ServletRegistration;
 import org.glassfish.grizzly.servlet.WebappContext;
@@ -22,7 +18,6 @@ import org.jboss.weld.environment.se.Weld;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -45,6 +40,7 @@ public class ApiStudio {
         weld.addPackage(true, aClass);
         weld.addPackage(true, CassandraDataSource.class);
         weld.addPackage(true, ApiStudio.class);
+
         weld.initialize();
 
         HttpServer httpServer = HttpServer.createSimpleServer(".", host, port);

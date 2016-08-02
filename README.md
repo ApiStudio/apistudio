@@ -1,7 +1,15 @@
 #API-STUDIO ( A Micro Service Framework )
 
+1. Start within 2 sec
+    * working to get in to 1 sec
+2. All in one library
+    * Cassandra For Database
+    * Weld For CDI
+    * Grizzly for tcp/http
+    * Jersey for REST services
 
-##**Sample** 
+
+##**Sample Code** 
 
 HelloWorldApp.java
 ```

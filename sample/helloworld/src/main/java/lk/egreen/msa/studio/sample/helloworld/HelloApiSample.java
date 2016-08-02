@@ -1,26 +1,22 @@
 package lk.egreen.msa.studio.sample.helloworld;
 
-import com.datastax.driver.core.utils.UUIDs;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.annotations.Table;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import lk.egreen.apistudio.bootstrap.externalsource.database.CassandraDataSource;
-import lk.egreen.msa.studio.sample.helloworld.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.server.mvc.Viewable;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.Random;
-import java.util.UUID;
 
 /**
  * Created by dewmal on 7/17/16.
