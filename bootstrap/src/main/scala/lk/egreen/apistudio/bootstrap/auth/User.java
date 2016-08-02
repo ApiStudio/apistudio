@@ -1,6 +1,7 @@
 package lk.egreen.apistudio.bootstrap.auth;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,6 +60,9 @@ public class User implements Principal {
     }
 
     public List<String> getRole() {
+        if (role == null) {
+            role = new ArrayList<>();
+        }
         return role;
     }
 

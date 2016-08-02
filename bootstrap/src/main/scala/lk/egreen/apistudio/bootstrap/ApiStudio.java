@@ -2,6 +2,7 @@ package lk.egreen.apistudio.bootstrap;
 
 import lk.egreen.apistudio.bootstrap.ext.SwaggerBootstrap;
 import lk.egreen.apistudio.bootstrap.externalsource.database.CassandraDataSource;
+import lk.egreen.apistudio.bootstrap.filter.AuthFilter;
 import lk.egreen.apistudio.bootstrap.module.theme.ThymeleafViewProcessor;
 import lk.egreen.apistudio.bootstrap.processors.JaxRsAnnotationProcessor;
 import org.apache.cassandra.service.CassandraDaemon;
@@ -14,6 +15,7 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.servlet.ServletRegistration;
 import org.glassfish.grizzly.servlet.WebappContext;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.glassfish.jersey.server.mvc.MvcFeature;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.jboss.weld.environment.se.Weld;
@@ -39,7 +41,7 @@ public class ApiStudio {
 
         final long startTime = System.currentTimeMillis();
 
-        Weld weld = new Weld(System.nanoTime() + "");
+        final Weld weld = new Weld(System.nanoTime() + "");
         weld.addPackage(true, aClass);
         weld.addPackage(true, CassandraDataSource.class);
         weld.addPackage(true, ApiStudio.class);
@@ -54,21 +56,15 @@ public class ApiStudio {
         resourceConfig.register(MvcFeature.class);
 
 
-//        EmbeddedCassandraService embeddedCassandraService = new EmbeddedCassandraService();
-//
-//        try {
-//            embeddedCassandraService.start();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
         //Swagger
         resourceConfig.register(io.swagger.jaxrs.listing.ApiListingResource.class);
         resourceConfig.register(io.swagger.jaxrs.listing.SwaggerSerializers.class);
         //Authentication
-//        resourceConfig.register(AuthFilter.class);
-//        resourceConfig.register(RolesAllowedDynamicFeature.class);
-//        resourceConfig.packages(true, aClass.getPackage().getName());
+        resourceConfig.register(AuthFilter.class);
+        resourceConfig.register(RolesAllowedDynamicFeature.class);
+
+        //
+        resourceConfig.packages(true, aClass.getPackage().getName());
 
 
         ServletContainer servletContainer = new ServletContainer(resourceConfig);
@@ -92,9 +88,10 @@ public class ApiStudio {
         webappContext.addListener(new ServletContextListener() {
             @Override
             public void contextInitialized(ServletContextEvent sce) {
-
                 NumberFormat formatter = new DecimalFormat("#0.00000");
                 LOGGER.info("Execution time is " + formatter.format((System.currentTimeMillis() - startTime) / 1000d) + " seconds");
+
+
             }
 
             @Override

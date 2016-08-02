@@ -30,18 +30,32 @@ public class CassandraDataSource {
     }
 
     public void connect(String node) {
-        cluster = Cluster.builder()
-                .addContactPoint(node)
-                .build();
-        Metadata metadata = cluster.getMetadata();
-        LOGGER.info("Connected to cluster: %s\n" +
-                metadata.getClusterName());
-        for (Host host : metadata.getAllHosts()) {
-            LOGGER.info("Datatacenter: %s; Host: %s; Rack: %s\n" +
-                    host.getDatacenter() + " " + host.getAddress() + " " + host.getRack());
+        if (session == null || session.isClosed()) {
+
+
+            cluster = Cluster.builder()
+                    .addContactPoint(node)
+                    .build();
+            Metadata metadata = cluster.getMetadata();
+            LOGGER.info("Connected to cluster: %s\n" +
+                    metadata.getClusterName());
+            for (Host host : metadata.getAllHosts()) {
+                LOGGER.info("Datatacenter: %s; Host: %s; Rack: %s\n" +
+                        host.getDatacenter() + " " + host.getAddress() + " " + host.getRack());
+            }
+
+            if (session != null) {
+                session.close();
+            }
+
+
+            session = cluster.connect();
+
+
+            if (manager == null) {
+                manager = new MappingManager(session);
+            }
         }
-        session = cluster.connect();
-        manager = new MappingManager(session);
     }
 
     public void close() {
