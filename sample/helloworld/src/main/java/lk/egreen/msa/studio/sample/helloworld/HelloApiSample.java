@@ -6,6 +6,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import lk.egreen.apistudio.bootstrap.externalsource.database.CassandraDataSource;
+import lk.egreen.msa.studio.sample.helloworld.data.dao.OrderDAOController;
+import lk.egreen.msa.studio.sample.helloworld.data.entity.Order;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.server.mvc.Viewable;
@@ -17,6 +19,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by dewmal on 7/17/16.
@@ -33,9 +36,9 @@ public class HelloApiSample {
     @Inject
     private HelloService helloService;
 
-    @Inject
-    private CassandraDataSource cassandraDataSource;
 
+    @Inject
+    private OrderDAOController orderDAOController;
 
     @GET
     @ApiOperation(
@@ -47,16 +50,14 @@ public class HelloApiSample {
     @RolesAllowed("ADMIN")
     @Produces(MediaType.TEXT_HTML)
     public Viewable hello() {
-        cassandraDataSource.connect("localhost");
 
-        Mapper<SampleModel> mapper = cassandraDataSource.getManager().mapper(SampleModel.class);
+        Order order = new Order();
+        order.setAmount(2345);
+        order.setCode(UUID.randomUUID());
+//        order.setOrder_id(new Random().nextLong());
+        order.setCustomer("User Name");
 
-//        LOGGER.info(mapper);
-
-        mapper.save(new SampleModel("Hemmlo", "Dewmal"));
-
-
-        cassandraDataSource.close();
+        orderDAOController.create(order);
 
 
         helloService.sayHello("dewmal");

@@ -19,6 +19,7 @@ public class CassandraDataSource {
 
     private static final Logger LOGGER = LogManager.getLogger(CassandraDataSource.class);
 
+    private String name_space;
     private Cluster cluster;
     private Session session;
     private MappingManager manager;
@@ -26,6 +27,7 @@ public class CassandraDataSource {
     @PostConstruct
     void init() {
         connect(System.getProperty("cassandra.node", "localhost"));
+        name_space = System.getProperty("apistudio.dbname", "apistudio");
         LOGGER.info("Connect Cassandra Done...");
     }
 
@@ -56,6 +58,14 @@ public class CassandraDataSource {
                 manager = new MappingManager(session);
             }
         }
+    }
+
+    public String getName_space() {
+        return name_space;
+    }
+
+    public void setName_space(String name_space) {
+        this.name_space = name_space;
     }
 
     public void close() {

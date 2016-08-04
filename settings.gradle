@@ -1,4 +1,5 @@
 rootProject.name = 'apistudio'
 include 'bootstrap'
 include 'console'
+include 'datalayer'
 
