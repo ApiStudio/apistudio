@@ -6,15 +6,10 @@ import javax.inject.Singleton;
  * Created by dewmal on 7/19/16.
  */
 @Singleton
-public class AuthentificationThirdParty {
+public class AuthenticationThirdParty {
 
 
-
-
-
-
-
-    public User authentification(String username, String password) {
+    public User authentication(String username, String password) {
         User user = new User();
         user.setFirstName(username);
         user.setPassword(password);

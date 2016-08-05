@@ -4,11 +4,10 @@ package lk.egreen.apistudio.bootstrap.filter;
 //import com.myapp.security.MyApplicationSecurityContext;
 //import com.myapp.bean.User;
 
-import lk.egreen.apistudio.bootstrap.auth.AuthentificationThirdParty;
+import lk.egreen.apistudio.bootstrap.auth.AuthenticationThirdParty;
 import lk.egreen.apistudio.bootstrap.auth.BasicAuth;
 import lk.egreen.apistudio.bootstrap.auth.User;
 import lk.egreen.apistudio.bootstrap.context.ApplicationSecurityContext;
-import lk.egreen.apistudio.bootstrap.externalsource.database.CassandraDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,7 +34,7 @@ public class AuthFilter implements ContainerRequestFilter {
 
 
     @Inject
-    private AuthentificationThirdParty authentificationThirdParty;
+    private AuthenticationThirdParty authenticationThirdParty;
 
 
     /**
@@ -57,7 +56,7 @@ public class AuthFilter implements ContainerRequestFilter {
             return;
         }
 
-        //Get the authentification passed in HTTP headers parameters
+        //Get the authentication passed in HTTP headers parameters
         String auth = containerRequest.getHeaderString("authorization");
 //        LOGGER.info(auth);
         //If the user does not have the right (does not provide any HTTP Basic Auth)
@@ -76,16 +75,16 @@ public class AuthFilter implements ContainerRequestFilter {
 //        LOGGER.info(lap[0] + " " + lap[1]);
 
         //DO YOUR DATABASE CHECK HERE (replace that line behind)...
-        User authentificationResult = authentificationThirdParty.authentification(lap[0], lap[1]);
+        User authenticationResult = authenticationThirdParty.authentication(lap[0], lap[1]);
 
         //Our system refuse login and password
-        if (authentificationResult == null) {
+        if (authenticationResult == null) {
             throw new WebApplicationException(Status.UNAUTHORIZED);
         }
 
         // We configure your Security Context here
         String scheme = containerRequest.getUriInfo().getRequestUri().getScheme();
-        containerRequest.setSecurityContext(new ApplicationSecurityContext(authentificationResult, scheme));
+        containerRequest.setSecurityContext(new ApplicationSecurityContext(authenticationResult, scheme));
 
         //TODO : HERE YOU SHOULD ADD PARAMETER TO REQUEST, TO REMEMBER USER ON YOUR REST SERVICE...
     }

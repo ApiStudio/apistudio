@@ -4,6 +4,7 @@
 
 
 apply plugin: 'maven-publish'
+apply plugin: 'io.codearte.nexus-staging'
 dependencies {
 
 // https://mvnrepository.com/artifact/org.glassfish.grizzly/grizzly-http-all
@@ -59,13 +60,17 @@ dependencies {
 
 
 }
-dependencies {
+
+nexusStaging {
+    packageGroup = "lk.egreen.msa.studio" //optional if packageGroup == project.getGroup() lk.egreen.msa.studio:bootstrap:1.0-SNAPSHOT
+   // stagingProfileId = "yourStagingProfileId" //when not defined will be got from server using "packageGroup"
 }
 
 jar {
     baseName = 'apistudio-bootstrap-launcher'
     version = '0.1.0'
 }
+
 task sourceJar(type: Jar) {
     from sourceSets.main.allJava
 }

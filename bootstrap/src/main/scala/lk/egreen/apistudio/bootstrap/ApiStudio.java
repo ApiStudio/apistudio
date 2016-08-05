@@ -4,6 +4,7 @@ import lk.egreen.apistudio.bootstrap.ext.SwaggerBootstrap;
 import lk.egreen.apistudio.bootstrap.externalsource.database.CassandraDataSource;
 import lk.egreen.apistudio.bootstrap.filter.AuthFilter;
 import lk.egreen.apistudio.bootstrap.module.theme.ThymeleafViewProcessor;
+import lk.egreen.apistudio.bootstrap.monitor.ApiMonitor;
 import lk.egreen.apistudio.bootstrap.processors.JaxRsAnnotationProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +12,7 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.servlet.ServletRegistration;
 import org.glassfish.grizzly.servlet.WebappContext;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.glassfish.jersey.server.mvc.MvcFeature;
 import org.glassfish.jersey.servlet.ServletContainer;
@@ -47,6 +49,7 @@ public class ApiStudio {
 
 
         ResourceConfig resourceConfig = JaxRsAnnotationProcessor.genResourceConfig(aClass.getPackage().getName());
+        resourceConfig.property(ServerProperties.MONITORING_STATISTICS_ENABLED, true);
         // HTML5 Template Engine
         resourceConfig.register(ThymeleafViewProcessor.class);
         resourceConfig.register(MvcFeature.class);
@@ -58,6 +61,9 @@ public class ApiStudio {
         //Authentication
         resourceConfig.register(AuthFilter.class);
         resourceConfig.register(RolesAllowedDynamicFeature.class);
+
+        //Monitor
+        resourceConfig.register(ApiMonitor.class);
 
         //
         resourceConfig.packages(true, aClass.getPackage().getName());
