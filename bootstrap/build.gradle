@@ -67,7 +67,7 @@ nexusStaging {
 }
 
 jar {
-    baseName = 'apistudio-bootstrap-launcher'
+    baseName = 'bootstrap'
     version = '0.1.0'
 }
 

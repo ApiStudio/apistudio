@@ -4,7 +4,7 @@ import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.annotations.Table;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.Authorization;
-import lk.egreen.apistudio.bootstrap.externalsource.database.CassandraDataSource;
+import io.egreen.apistudio.bootstrap.database.CassandraDataSource;
 import org.glassfish.jersey.server.mvc.Viewable;
 
 import javax.inject.Inject;

@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    compile 'lk.egreen.msa.studio:bootstrap:1.0-SNAPSHOT'
-    compile 'lk.egreen.msa.studio:datalayer:1.0-SNAPSHOT'
+    compile 'io.egreen.apistudio:bootstrap:1.0-SNAPSHOT'
+    compile 'io.egreen.apistudio:datalayer:1.0-SNAPSHOT'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }

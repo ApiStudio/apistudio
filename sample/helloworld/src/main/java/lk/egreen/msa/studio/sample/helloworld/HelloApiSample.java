@@ -1,11 +1,10 @@
 package lk.egreen.msa.studio.sample.helloworld;
 
-import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.annotations.Table;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
-import lk.egreen.apistudio.bootstrap.externalsource.database.CassandraDataSource;
+import io.egreen.apistudio.bootstrap.database.CassandraDataSource;
 import lk.egreen.msa.studio.sample.helloworld.data.dao.OrderDAOController;
 import lk.egreen.msa.studio.sample.helloworld.data.entity.Order;
 import org.apache.logging.log4j.LogManager;

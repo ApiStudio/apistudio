@@ -1,4 +1,4 @@
-group 'lk.egreen.msa.studio'
+group 'io.egreen.apistudio'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'

@@ -1,5 +1,5 @@
-group 'lk.egreen.msa.studio'
-version '1.0-SNAPSHOT'
+group 'io.egreen.apistudio'
+version '0.0.5'
 
 buildscript {
     repositories {
@@ -11,8 +11,8 @@ buildscript {
 }
 subprojects {
     apply plugin: 'scala'
-    group 'lk.egreen.msa.studio'
-    version '1.0-SNAPSHOT'
+    group 'io.egreen.apistudio'
+    version '0.0.5'
 
     repositories {
         mavenCentral()
@@ -87,8 +87,8 @@ if (project.hasProperty('release')) {
 
                         licenses {
                             license {
-                                name 'The MIT License (MIT)'
-                                url 'http://opensource.org/licenses/MIT'
+                                name 'Apache License 2.0 (Apache-2.0) '
+                                url 'https://opensource.org/licenses/Apache-2.0'
                                 distribution 'repo'
                             }
                         }
