@@ -1,6 +1,6 @@
 package lk.egreen.msa.studio.sample.helloworld.data.dao;
 
-import lk.egreen.msa.studio.datalayer.dao.DAOController;
+import io.egreen.apistudio.datalayer.dao.DAOController;
 import lk.egreen.msa.studio.sample.helloworld.data.entity.Order;
 
 import java.io.Serializable;

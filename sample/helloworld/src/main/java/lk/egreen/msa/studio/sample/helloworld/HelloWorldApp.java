@@ -1,6 +1,7 @@
 package lk.egreen.msa.studio.sample.helloworld;
 
-import lk.egreen.apistudio.bootstrap.ApiStudio;
+
+import io.egreen.apistudio.bootstrap.ApiStudio;
 
 import javax.ws.rs.ApplicationPath;
 

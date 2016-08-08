@@ -59,8 +59,8 @@ public class ApiStudio {
         resourceConfig.register(io.swagger.jaxrs.listing.ApiListingResource.class);
         resourceConfig.register(io.swagger.jaxrs.listing.SwaggerSerializers.class);
         //Authentication
-        resourceConfig.register(AuthFilter.class);
         resourceConfig.register(RolesAllowedDynamicFeature.class);
+        resourceConfig.register(AuthFilter.class);
 
         //Monitor
         resourceConfig.register(ApiMonitor.class);

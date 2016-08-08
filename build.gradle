@@ -70,19 +70,19 @@ if (project.hasProperty('release')) {
                     // POM signature
                     beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
                     // Target repository
-                    repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
                         authentication(userName: ossrhUser, password: ossrhPassword)
                     }
                     pom.project {
                         name project.name
                         description project.description
                         packaging 'jar'
-                        url 'https://github.com/your/project'
+                        url 'https://github.com/egreen-lab/apistudio.git'
 
                         scm {
-                            connection 'scm:git:https://github.com/your/project.git'
-                            developerConnection 'scm:git:git@github.com:your/project.git'
-                            url 'https://github.com/your/project.git'
+                            connection 'scm:git@github.com:egreen-lab/apistudio.git'
+                            developerConnection 'scm:git@github.com:egreen-lab/apistudio.git'
+                            url 'https://github.com/egreen-lab/apistudio.git'
                         }
 
                         licenses {
