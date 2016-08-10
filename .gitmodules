@@ -1,0 +1,3 @@
+[submodule "apistudio-monitor"]
+	path = apistudio-monitor
+	url = https://github.com/egreen-lab/apistudio-monitor.git

@@ -1,6 +1,7 @@
 package lk.egreen.msa.studio.sample.helloworld.data.dao.impl;
 
-import lk.egreen.msa.studio.datalayer.dao.impl.AbstractDAOController;
+
+import io.egreen.apistudio.datalayer.dao.impl.AbstractDAOController;
 import lk.egreen.msa.studio.sample.helloworld.data.dao.OrderDAOController;
 import lk.egreen.msa.studio.sample.helloworld.data.entity.Order;
 

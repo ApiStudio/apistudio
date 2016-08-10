@@ -8,7 +8,9 @@ import io.egreen.apistudio.bootstrap.monitor.ApiMonitor;
 import io.egreen.apistudio.bootstrap.processors.JaxRsAnnotationProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.grizzly.servlet.ServletRegistration;
 import org.glassfish.grizzly.servlet.WebappContext;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -53,6 +55,12 @@ public class ApiStudio {
         // HTML5 Template Engine
         resourceConfig.register(ThymeleafViewProcessor.class);
         resourceConfig.register(MvcFeature.class);
+
+//        StaticHttpHandler staticHttpHandler = new StaticHttpHandler(aClass.getResource("www").getPath() + ".");
+
+        CLStaticHttpHandler staticHttpHandler = new CLStaticHttpHandler(aClass.getClassLoader(), "www/");
+        LOGGER.info(staticHttpHandler.getName());
+        httpServer.getServerConfiguration().addHttpHandler(staticHttpHandler, "/");
 
 
         //Swagger

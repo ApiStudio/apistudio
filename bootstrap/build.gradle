@@ -68,11 +68,19 @@ nexusStaging {
 
 jar {
     baseName = 'bootstrap'
-    version = '0.0.5'
+    version = '0.0.6'
 }
-
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+}
 task sourceJar(type: Jar) {
     from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
 }
 publishing {
     publications {
