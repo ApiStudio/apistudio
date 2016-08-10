@@ -1,3 +1,9 @@
 [submodule "apistudio-monitor"]
 	path = apistudio-monitor
 	url = https://github.com/egreen-lab/apistudio-monitor.git
+[submodule "apistudio-platform"]
+	path = apistudio-platform
+	url = https://github.com/e-green/apistudio-platform.git
+[submodule "platform"]
+	path = apistudio-platform
+	url = https://github.com/e-green/apistudio-platform.git

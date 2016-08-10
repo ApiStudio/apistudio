@@ -1,0 +1,44 @@
+group 'io.egreen.apistudio'
+version '0.0.6'
+
+apply plugin: 'java'
+apply plugin: 'scala'
+apply plugin: 'maven-publish'
+
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':bootstrap')
+    compile project(':datalayer')
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifact sourceJar {
+                classifier "src"
+            }
+        }
+    }
+}
+publishing {
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url "$buildDir/repo"
+        }
+    }
+}
