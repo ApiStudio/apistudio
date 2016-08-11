@@ -4,13 +4,11 @@ import io.egreen.apistudio.bootstrap.ext.SwaggerBootstrap;
 import io.egreen.apistudio.bootstrap.database.CassandraDataSource;
 import io.egreen.apistudio.bootstrap.filter.AuthFilter;
 import io.egreen.apistudio.bootstrap.theme.ThymeleafViewProcessor;
-import io.egreen.apistudio.bootstrap.monitor.ApiMonitor;
 import io.egreen.apistudio.bootstrap.processors.JaxRsAnnotationProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.grizzly.servlet.ServletRegistration;
 import org.glassfish.grizzly.servlet.WebappContext;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -24,6 +22,10 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by dewmal on 7/17/16.
@@ -32,8 +34,17 @@ public class ApiStudio {
 
     private final static Logger LOGGER = LogManager.getLogger(ApiStudio.class);
 
+    private final static ApiStudioContext CONTEXT = ApiStudioContext.getINSTANCE();
 
-    public static void boot(Class<?> aClass, String host, int port, String root) {
+
+    public static void boot(Class<?> aClass, String host, int port, String root, Class<?>... modules) {
+
+
+        List<Class<?>> moduleList = new ArrayList<>();
+        if (modules != null) {
+            Collections.addAll(moduleList, modules);
+        }
+
 
         LOGGER.info("API-STUDIO STARTED...");
 
@@ -44,6 +55,11 @@ public class ApiStudio {
         weld.addPackage(true, aClass);
         weld.addPackage(true, CassandraDataSource.class);
         weld.addPackage(true, ApiStudio.class);
+
+        // Register Modules in CDI
+        for (Class<?> moduleClass : moduleList) {
+            weld.addPackage(true, moduleClass);
+        }
 
         weld.initialize();
 
@@ -70,8 +86,10 @@ public class ApiStudio {
         resourceConfig.register(RolesAllowedDynamicFeature.class);
         resourceConfig.register(AuthFilter.class);
 
-        //Monitor
-        resourceConfig.register(ApiMonitor.class);
+        // Register Modules in Resource Config
+        for (Class<?> moduleClass : moduleList) {
+            resourceConfig.packages(true, moduleClass.getPackage().getName());
+        }
 
         //
         resourceConfig.packages(true, aClass.getPackage().getName());
@@ -131,6 +149,11 @@ public class ApiStudio {
             LOGGER.error(
                     "There was an error while starting Grizzly HTTP server.", e);
         }
+    }
+
+    public static void boot(Class<?> aClass, String host, int port, String root) {
+
+        boot(aClass, host, port, root, null);
 
     }
 }

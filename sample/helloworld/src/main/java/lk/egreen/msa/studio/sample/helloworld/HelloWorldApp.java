@@ -2,6 +2,7 @@ package lk.egreen.msa.studio.sample.helloworld;
 
 
 import io.egreen.apistudio.bootstrap.ApiStudio;
+import io.egreen.apistudio.monitor.ApiStudioMonitorModule;
 
 import javax.ws.rs.ApplicationPath;
 
@@ -12,7 +13,7 @@ import javax.ws.rs.ApplicationPath;
 public class HelloWorldApp {
 
     public static void main(String[] args) {
-        ApiStudio.boot(HelloWorldApp.class, "0.0.0.0", 4545, "/api");
+        ApiStudio.boot(HelloWorldApp.class, "0.0.0.0", 4545, "/api", ApiStudioMonitorModule.class);
     }
 
 }

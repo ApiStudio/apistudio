@@ -1,7 +1,7 @@
-package io.egreen.apistudio.bootstrap.monitor;
+package io.egreen.apistudio.monitor.api;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.glassfish.jersey.server.monitoring.MonitoringStatistics;
 import org.glassfish.jersey.server.monitoring.TimeWindowStatistics;
 
@@ -11,36 +11,27 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 /**
- * Created by dewmal on 8/5/16.
+ * Created by dewmal on 8/11/16.
  */
-
-@Path("resource")
-public class ApiMonitor {
-
-    private static final Logger LOGGER = LogManager.getLogger(ApiMonitor.class);
+@Path("/request")
+public class RequestCountService {
+    private static final Logger LOGGER = LogManager.getLogger(RequestCountService.class);
 
 
     @Inject
     Provider<MonitoringStatistics> monitoringStatisticsProvider;
 
-    @GET
-    public String getSomething() {
-        LOGGER.info(monitoringStatisticsProvider.get());
 
+    @Path("/total")
+    @GET
+    public long getTotalCount() {
         final MonitoringStatistics snapshot
                 = monitoringStatisticsProvider.get().snapshot();
 
         final TimeWindowStatistics timeWindowStatistics
                 = snapshot.getRequestStatistics()
                 .getTimeWindowStatistics().get(0l);
-
-
-
-
-        return "request count: " + timeWindowStatistics.getRequestCount()
-                + ", average request processing [ms]: "
-                + timeWindowStatistics.getAverageDuration();
+        return timeWindowStatistics.getRequestCount();
     }
-
 
 }
