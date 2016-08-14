@@ -7,3 +7,6 @@
 [submodule "platform"]
 	path = apistudio-platform
 	url = https://github.com/e-green/apistudio-platform.git
+[submodule "monitor/apistudio-monitor-admin"]
+	path = monitor/apistudio-monitor-admin
+	url = https://github.com/egreen-lab/apistudio-monitor-admin.git
