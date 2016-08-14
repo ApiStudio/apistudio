@@ -8,5 +8,8 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Module {
-    String name() default "";
+
+    String name() ;
+
+
 }

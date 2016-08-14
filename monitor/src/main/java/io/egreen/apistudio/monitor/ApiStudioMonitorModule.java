@@ -12,7 +12,9 @@ import javax.enterprise.event.Observes;
  * Created by dewmal on 8/10/16.
  */
 @ApplicationScoped
-@Module
+@Module(
+        name = "monitor"
+)
 public class ApiStudioMonitorModule {
 
     private static final Logger LOGGER = LogManager.getLogger(ApiStudioMonitorModule.class);

@@ -76,7 +76,7 @@ public class ApiStudio {
 
         CLStaticHttpHandler staticHttpHandler = new CLStaticHttpHandler(aClass.getClassLoader(), "www/");
         LOGGER.info(staticHttpHandler.getName());
-        httpServer.getServerConfiguration().addHttpHandler(staticHttpHandler, root + "/static");
+        httpServer.getServerConfiguration().addHttpHandler(staticHttpHandler, "/static");
 
 
         //Swagger
@@ -100,7 +100,7 @@ public class ApiStudio {
         WebappContext webappContext = new WebappContext("API-STUDIO", root);
 
 
-        webappContext.setAttribute("root", "/" + root);
+        webappContext.setAttribute("root", root);
         ServletRegistration servletRegistration = webappContext.addServlet("api-handler", servletContainer);
         servletRegistration.addMapping("/*");
         servletRegistration.setLoadOnStartup(1);
