@@ -15,6 +15,7 @@ public class JaxRsAnnotationProcessor {
     public static ResourceConfig genResourceConfig(String packageName) {
         ResourceConfig resConfig = new ResourceConfig();
 
+
         Reflections reflections = new Reflections(packageName);
         Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(Path.class);
         resConfig.registerClasses(typesAnnotatedWith);

@@ -7,6 +7,7 @@ import org.jboss.weld.environment.se.events.ContainerInitialized;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+import javax.ws.rs.ApplicationPath;
 
 /**
  * Created by dewmal on 8/10/16.

@@ -5,26 +5,32 @@
 <head>
     <meta charset="utf-8">
     <title>ApistudioMonitor</title>
-    <base href="/">
+    <base href="/static/monitor/">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/static/monitor/favicon.ico">
 </head>
 <body>
 <app-root>Loading...</app-root>
 
-<script src="monitor/vendor/es6-shim/es6-shim.js"></script>
-<script src="monitor/vendor/reflect-metadata/Reflect.js"></script>
-<script src="monitor/vendor/systemjs/dist/system.src.js"></script>
-<script src="monitor/vendor/zone.js/dist/zone.js"></script>
+<script src="/static/monitor/vendor/es6-shim/es6-shim.js"></script>
+<script src="/static/monitor/vendor/reflect-metadata/Reflect.js"></script>
+<script src="/static/monitor/vendor/systemjs/dist/system.src.js"></script>
+<script src="/static/monitor/vendor/zone.js/dist/zone.js"></script>
+
 <script th:inline="javascript">
-    /*<![CDATA[*/ ...var base = ${application.host}... /*]]>*/
+
+    /*<![CDATA[*/
+
+    var base = /*[[${application.get('root')}]]*/ '';
+    base += "/monitor"
+    /*]]>*/
 </script>
 <script>
 
     alert(base);
 
-    System.import('system-config.js').then(function () {
+    System.import('/static/monitor/system-config.js').then(function () {
         System.import('main');
     }).catch(console.error.bind(console));
 </script>
