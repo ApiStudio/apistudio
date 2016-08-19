@@ -1,35 +1,45 @@
 package io.egreen.apistudio.bootstrap;
 
-import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
-import io.egreen.apistudio.bootstrap.ext.SwaggerBootstrap;
 import io.egreen.apistudio.bootstrap.database.CassandraDataSource;
+import io.egreen.apistudio.bootstrap.ext.SwaggerBootstrap;
 import io.egreen.apistudio.bootstrap.filter.AuthFilter;
 import io.egreen.apistudio.bootstrap.filter.CORSResponseFilter;
+import io.egreen.apistudio.bootstrap.processors.JaxRsAnnotationProcessor;
 import io.egreen.apistudio.bootstrap.provider.ApiStudioObjectMapperProvider;
 import io.egreen.apistudio.bootstrap.theme.ThymeleafViewProcessor;
-import io.egreen.apistudio.bootstrap.processors.JaxRsAnnotationProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.NetworkListener;
 import org.glassfish.grizzly.servlet.ServletRegistration;
 import org.glassfish.grizzly.servlet.WebappContext;
+import org.glassfish.grizzly.websockets.WebSocketAddOn;
+import org.glassfish.grizzly.websockets.WebSocketApplication;
+import org.glassfish.grizzly.websockets.WebSocketEngine;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.glassfish.jersey.server.mvc.MvcFeature;
 import org.glassfish.jersey.servlet.ServletContainer;
+import org.glassfish.tyrus.core.ComponentProvider;
+import org.glassfish.tyrus.gf.cdi.CdiComponentProvider;
+import org.glassfish.tyrus.server.Server;
+import org.glassfish.tyrus.server.TyrusServerContainer;
+import org.glassfish.tyrus.server.TyrusServerEndpointConfigurator;
 import org.jboss.weld.environment.se.Weld;
+import org.jboss.weld.environment.se.WeldContainer;
+import org.reflections.Reflections;
 
+import javax.naming.NamingException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.websocket.DeploymentException;
+import javax.websocket.server.ServerEndpoint;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by dewmal on 7/17/16.
@@ -67,7 +77,15 @@ public class ApiStudio {
 
         weld.initialize();
 
+
         HttpServer httpServer = HttpServer.createSimpleServer(".", host, port);
+
+        TyrusServerContainer tcontainer = null;
+        try {
+            tcontainer = getTyrusContainer(httpServer, aClass);
+        } catch (DeploymentException e) {
+            e.printStackTrace();
+        }
 
 
         ResourceConfig resourceConfig = JaxRsAnnotationProcessor.genResourceConfig(aClass.getPackage().getName());
@@ -81,7 +99,6 @@ public class ApiStudio {
         resourceConfig.register(MvcFeature.class);
 
 //        StaticHttpHandler staticHttpHandler = new StaticHttpHandler(aClass.getResource("www").getPath() + ".");
-
         CLStaticHttpHandler staticHttpHandler = new CLStaticHttpHandler(aClass.getClassLoader(), "www/");
         LOGGER.info(staticHttpHandler.getName());
         httpServer.getServerConfiguration().addHttpHandler(staticHttpHandler, "/static");
@@ -107,7 +124,6 @@ public class ApiStudio {
         WebappContext webappContext = new WebappContext("API-STUDIO", root);
 
 
-
         webappContext.setAttribute("root", root);
         ServletRegistration servletRegistration = webappContext.addServlet("api-handler", servletContainer);
         servletRegistration.addMapping("/*");
@@ -129,8 +145,6 @@ public class ApiStudio {
             public void contextInitialized(ServletContextEvent sce) {
                 NumberFormat formatter = new DecimalFormat("#0.00000");
                 LOGGER.info("Execution time is " + formatter.format((System.currentTimeMillis() - startTime) / 1000d) + " seconds");
-
-
             }
 
             @Override
@@ -154,7 +168,8 @@ public class ApiStudio {
         // run
         try {
             LOGGER.info("starting on http://" + host + ":" + port);
-            httpServer.start();
+            tcontainer.start(root, port);
+//            httpServer.start();
             LOGGER.info("Press CTRL^C to exit..");
             Thread.currentThread().join();
         } catch (Exception e) {
@@ -162,6 +177,26 @@ public class ApiStudio {
                     "There was an error while starting Grizzly HTTP server.", e);
         }
     }
+
+    /**
+     * Creates and configures a Tyrus server container, based on an existing grizzly HTTP server
+     *
+     * @return Tyrus server container.
+     */
+    public static TyrusServerContainer getTyrusContainer(HttpServer server, Class<?> classes) throws DeploymentException {
+        TyrusServerContainer container = (TyrusServerContainer) new ApiWebSocketServerContainer(server).createContainer(null);
+
+        Reflections reflections = new Reflections(classes.getPackage().getName());
+
+        Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(ServerEndpoint.class);
+        for (Class<?> aClass : typesAnnotatedWith) {
+            container.addEndpoint(aClass);
+        }
+
+
+        return container;
+    }
+
 
     public static void boot(Class<?> aClass, String host, int port, String root) {
 
