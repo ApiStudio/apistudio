@@ -48,7 +48,7 @@ public class ThymeleafViewProcessor implements TemplateProcessor<String> {
      * コンストラクタ
      */
     public ThymeleafViewProcessor() {
-//        LOGGER.info(status);
+        LOGGER.info(status);
 
     }
 
@@ -58,7 +58,7 @@ public class ThymeleafViewProcessor implements TemplateProcessor<String> {
         ServletContextTemplateResolver resolver = new ApiStudioTemplateResolver(servletContext);
 
 //        ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
-        resolver.setPrefix("./pages/");
+        resolver.setPrefix("/pages/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setCacheTTLMs(3600000L);
@@ -66,7 +66,7 @@ public class ThymeleafViewProcessor implements TemplateProcessor<String> {
         templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(resolver);
         status = ("ThymeleafViewProcessor end");
-//        LOGGER.info(status);
+        LOGGER.info(status);
 
     }
 
@@ -82,7 +82,8 @@ public class ThymeleafViewProcessor implements TemplateProcessor<String> {
 
     @Override
     public void writeTo(String templateReference, Viewable viewable, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream out) throws IOException {
-//        LOGGER.info(status);
+        LOGGER.info(templateReference);
+        LOGGER.info(out);
 
         WebContext context = new WebContext(request, response, servletContext);
 

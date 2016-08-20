@@ -2,6 +2,12 @@
 
 1. Start within 2 sec
     * working to get in to 1 sec
+2. Features
+    * JAX-RS - jersey
+    * WS - tyrus 
+    * Database - Cassandra
+    * CDI - Weld
+    * NIO Library - Grizzly
 2. All in one library
     * Cassandra For Database
     * Weld For CDI
