@@ -1,4 +1,4 @@
-package io.egreen.apistudio.bootstrap;
+package io.egreen.apistudio.bootstrap.websocket;
 
 import java.io.IOException;
 import java.net.URI;

@@ -58,7 +58,7 @@ public class ThymeleafViewProcessor implements TemplateProcessor<String> {
         ServletContextTemplateResolver resolver = new ApiStudioTemplateResolver(servletContext);
 
 //        ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
-        resolver.setPrefix("/pages/");
+        resolver.setPrefix("./pages/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");
         resolver.setCacheTTLMs(3600000L);

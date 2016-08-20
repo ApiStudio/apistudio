@@ -1,17 +1,11 @@
-package io.egreen.apistudio.bootstrap;
+package io.egreen.apistudio.bootstrap.websocket;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import javax.websocket.DeploymentException;
-import javax.websocket.server.ServerEndpointConfig;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-
+import org.glassfish.grizzly.http.Method;
+import org.glassfish.grizzly.http.server.*;
+import org.glassfish.grizzly.http.util.ContentType;
+import org.glassfish.grizzly.nio.transport.TCPNIOTransportBuilder;
+import org.glassfish.grizzly.strategies.WorkerThreadIOStrategy;
+import org.glassfish.grizzly.threadpool.ThreadPoolConfig;
 import org.glassfish.tyrus.core.DebugContext;
 import org.glassfish.tyrus.core.TyrusWebSocketEngine;
 import org.glassfish.tyrus.core.Utils;
@@ -24,18 +18,15 @@ import org.glassfish.tyrus.spi.ServerContainer;
 import org.glassfish.tyrus.spi.ServerContainerFactory;
 import org.glassfish.tyrus.spi.WebSocketEngine;
 
-import org.glassfish.grizzly.http.Method;
-import org.glassfish.grizzly.http.server.HttpHandler;
-import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.grizzly.http.server.NetworkListener;
-import org.glassfish.grizzly.http.server.Request;
-import org.glassfish.grizzly.http.server.Response;
-import org.glassfish.grizzly.http.server.ServerConfiguration;
-import org.glassfish.grizzly.http.server.StaticHttpHandler;
-import org.glassfish.grizzly.http.util.ContentType;
-import org.glassfish.grizzly.nio.transport.TCPNIOTransportBuilder;
-import org.glassfish.grizzly.strategies.WorkerThreadIOStrategy;
-import org.glassfish.grizzly.threadpool.ThreadPoolConfig;
+import javax.websocket.DeploymentException;
+import javax.websocket.server.ServerEndpointConfig;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 
 /**

@@ -1,10 +1,9 @@
-package io.egreen.apistudio.bootstrap;
+package io.egreen.apistudio.bootstrap.websocket;
 
 import org.glassfish.tyrus.spi.ServerContainer;
 
 import org.glassfish.grizzly.filterchain.FilterChainBuilder;
 import org.glassfish.grizzly.http.server.AddOn;
-import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.HttpServerFilter;
 import org.glassfish.grizzly.http.server.NetworkListener;
 
