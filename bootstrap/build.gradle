@@ -61,6 +61,8 @@ dependencies {
     compile group: 'org.glassfish.tyrus', name: 'tyrus-container-glassfish-cdi', version: '1.13'
 // https://mvnrepository.com/artifact/javax.ejb/javax.ejb-api
     compile group: 'javax.ejb', name: 'javax.ejb-api', version: '3.2'
+// https://mvnrepository.com/artifact/io.github.lukehutch/fast-classpath-scanner
+    compile group: 'io.github.lukehutch', name: 'fast-classpath-scanner', version: '2.0.1'
 
 
 // https://mvnrepository.com/artifact/org.cassandraunit/cassandra-unit

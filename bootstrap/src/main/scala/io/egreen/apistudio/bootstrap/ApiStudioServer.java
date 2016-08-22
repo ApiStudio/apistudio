@@ -3,9 +3,12 @@ package io.egreen.apistudio.bootstrap;
 import io.egreen.apistudio.bootstrap.module.ModuleIntergrator;
 import io.egreen.apistudio.bootstrap.rest.RestComponentInitializer;
 import io.egreen.apistudio.bootstrap.websocket.ApiWebSocketServerContainer;
+import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.glassfish.grizzly.comet.CometAddOn;
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.NetworkListener;
 import org.glassfish.grizzly.servlet.ServletRegistration;
 import org.glassfish.grizzly.servlet.WebappContext;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -21,6 +24,8 @@ import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 import javax.naming.NamingException;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import javax.websocket.Decoder;
 import javax.websocket.DeploymentException;
 import javax.websocket.Encoder;
@@ -28,6 +33,8 @@ import javax.websocket.Extension;
 import javax.websocket.server.ServerApplicationConfig;
 import javax.websocket.server.ServerEndpoint;
 import javax.websocket.server.ServerEndpointConfig;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 
 /**
@@ -73,24 +80,30 @@ public class ApiStudioServer {
         moduleIntergrator.init(webappContext);
 
 
-//        webappContext.addListener(new ServletContextListener() {
-//            @Override
-//            public void contextInitialized(ServletContextEvent sce) {
-//                NumberFormat formatter = new DecimalFormat("#0.00000");
-//                LOGGER.info("Execution time is " + formatter.format((System.currentTimeMillis() - startTime) / 1000d) + " seconds");
-//            }
-//
-//            @Override
-//            public void contextDestroyed(ServletContextEvent sce) {
-//                NumberFormat formatter = new DecimalFormat("#0.00000");
-//                LOGGER.info("Execution time is " + formatter.format((System.currentTimeMillis() - startTime) / 1000d) + " seconds");
-//            }
-//        });
+        webappContext.addListener(new ServletContextListener() {
+            @Override
+            public void contextInitialized(ServletContextEvent sce) {
+                NumberFormat formatter = new DecimalFormat("#0.00000");
+                LOGGER.info("Execution time is " + formatter.format((System.currentTimeMillis() - ApiStudio.startTime) / 1000d) + " seconds");
+            }
+
+            @Override
+            public void contextDestroyed(ServletContextEvent sce) {
+                NumberFormat formatter = new DecimalFormat("#0.00000");
+                LOGGER.info("Execution time is " + formatter.format((System.currentTimeMillis() - ApiStudio.startTime) / 1000d) + " seconds");
+            }
+        });
 
         webappContext.deploy(httpServer);
 
 
         try {
+
+            final Collection<NetworkListener> listeners = httpServer.getListeners();
+            for (NetworkListener listener : listeners) {
+                listener.registerAddOn(new CometAddOn());
+            }
+
 
             List<Class<?>> wsClassList = new ArrayList(Arrays.asList(ApiStudio.modules));
             wsClassList.add(ApiStudio.applicationClass);
@@ -98,6 +111,8 @@ public class ApiStudioServer {
         } catch (DeploymentException e) {
             e.printStackTrace();
         } catch (NamingException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -112,7 +127,7 @@ public class ApiStudioServer {
 //        httpServer.getServerConfiguration().getMonitoringConfig().
         // run
         try {
-            LOGGER.info("starting on http://" + ApiStudio.host + ":" + ApiStudio.port+"/"+ApiStudio.root);
+            LOGGER.info("starting on http://" + ApiStudio.host + ":" + ApiStudio.port + "/" + ApiStudio.root);
             tyrusContainer.start(ApiStudio.root, ApiStudio.port);
 //            httpServer.start();
             LOGGER.info("Press CTRL^C to exit..");
@@ -129,21 +144,25 @@ public class ApiStudioServer {
      *
      * @return Tyrus server container.
      */
-    public static TyrusServerContainer getTyrusContainer(HttpServer server, List<Class<?>> classes) throws DeploymentException, NamingException {
+    public static TyrusServerContainer getTyrusContainer(HttpServer server, List<Class<?>> classes) throws DeploymentException, NamingException, ClassNotFoundException {
         TyrusServerContainer container = (TyrusServerContainer) new ApiWebSocketServerContainer(server).createContainer(null);
 
 //        container.register(.configurator(new ServerEndpointConfig.Configurator()).build());
 
 
         for (Class<?> searchPackageClass : classes) {
+
+            List<String> namesOfClassesWithAnnotation = new FastClasspathScanner(searchPackageClass.getPackage().getName()).scan().getNamesOfClassesWithAnnotation(ServerEndpoint.class);
+
+
             Reflections reflections = new Reflections(searchPackageClass.getPackage().getName());
 
             Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(ServerEndpoint.class);
-            LOGGER.info(typesAnnotatedWith);
-            for (Class<?> aClass : typesAnnotatedWith) {
-                LOGGER.info(aClass);
+            //    LOGGER.info(typesAnnotatedWith);
+            for (String className : namesOfClassesWithAnnotation) {
+                //       LOGGER.info(Class.forName(className));
 
-                container.addEndpoint(aClass);
+                container.addEndpoint(Class.forName(className));
             }
         }
 

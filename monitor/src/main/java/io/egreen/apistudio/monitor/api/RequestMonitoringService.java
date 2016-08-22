@@ -12,14 +12,13 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 /**
  * Created by dewmal on 8/11/16.
  */
 @Path("monitor/request")
-public class RequestCountService {
-    private static final Logger LOGGER = LogManager.getLogger(RequestCountService.class);
+public class RequestMonitoringService {
+    private static final Logger LOGGER = LogManager.getLogger(RequestMonitoringService.class);
 
 
     @Inject
@@ -30,6 +29,9 @@ public class RequestCountService {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public UnitValue getTotalCount() {
+
+
+
         final MonitoringStatistics snapshot
                 = monitoringStatisticsProvider.get().snapshot();
 
