@@ -5,6 +5,7 @@ import io.egreen.apistudio.bootstrap.filter.CORSResponseFilter;
 import io.egreen.apistudio.bootstrap.provider.ApiStudioObjectMapperProvider;
 import io.egreen.apistudio.bootstrap.theme.ThymeleafViewProcessor;
 import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.server.mvc.MvcFeature;
@@ -36,14 +37,21 @@ public class RestComponentInitializer {
         resourceConfig.register(ThymeleafViewProcessor.class);
         resourceConfig.register(MvcFeature.class);
 
+        resourceConfig.packages("org.glassfish.jersey.examples.multipart")
+                .register(MultiPartFeature.class);
+
         initModules();
     }
 
 
     private void initModules() {
         Class<?>[] modules = ApiStudio.modules;
-        for (Class<?> module : modules) {
-            resourceConfig.packages(true, module.getPackage().getName());
+        if (modules != null && modules.length > 0) {
+            for (Class<?> module : modules) {
+                if (module != null) {
+                    resourceConfig.packages(true, module.getPackage().getName());
+                }
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package io.egreen.apistudio.bootstrap;
 
+import io.egreen.apistudio.bootstrap.config.MSApp;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.tyrus.server.TyrusServerContainer;
@@ -8,6 +9,7 @@ import org.jboss.weld.environment.se.WeldContainer;
 
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.CDI;
+import javax.ws.rs.ApplicationPath;
 
 /**
  * Created by dewmal on 7/17/16.
@@ -29,6 +31,7 @@ public class ApiStudio {
     public static Class<?>[] modules;
 
     public static final long startTime = System.currentTimeMillis();
+    private static String applicationName;
 
 
     public static WeldContainer getWeldContainer(Class<?> applicationClass, Class<?>... classes) {
@@ -36,7 +39,9 @@ public class ApiStudio {
             weld = new Weld();
             weld.addPackage(true, ApiStudio.class);
             weld.addPackage(true, applicationClass);
-            weld.addPackages(true, classes);
+            if (classes != null) {
+                weld.addPackages(true, classes);
+            }
             container = weld.initialize();
         }
         return container;
@@ -44,6 +49,15 @@ public class ApiStudio {
 
 
     public static void boot(Class<?> aClass, String host, int port, String root, Class<?>... modules) {
+
+        if (aClass.isAnnotationPresent(MSApp.class)) {
+            MSApp annotation = aClass.getAnnotation(MSApp.class);
+            applicationName = annotation.name();
+        }else{
+            throw new ExceptionInInitializerError("Application not initialized with MSApp");
+        }
+
+
         ApiStudio.applicationClass = aClass;
         ApiStudio.host = host;
         ApiStudio.port = port;
@@ -82,5 +96,13 @@ public class ApiStudio {
 
         boot(aClass, host, port, root, null);
 
+    }
+
+    public static Class getApplicationClass() {
+        return applicationClass;
+    }
+
+    public static String getApplicationName() {
+        return applicationName;
     }
 }

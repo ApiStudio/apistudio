@@ -1,5 +1,6 @@
 package io.egreen.apistudio.bootstrap;
 
+import io.egreen.apistudio.bootstrap.config.processor.AnnotationFilterService;
 import io.egreen.apistudio.bootstrap.module.ModuleIntergrator;
 import io.egreen.apistudio.bootstrap.rest.RestComponentInitializer;
 import io.egreen.apistudio.bootstrap.websocket.ApiWebSocketServerContainer;
@@ -52,6 +53,10 @@ public class ApiStudioServer {
     private ModuleIntergrator moduleIntergrator;
 
 
+    @Inject
+    private AnnotationFilterService annotationFilterService;
+
+
     private ResourceConfig resourceConfig;
     private TyrusServerContainer tyrusContainer;
 
@@ -64,6 +69,8 @@ public class ApiStudioServer {
 
 
         ServletContainer servletContainer = new ServletContainer(resourceConfig);
+
+
         WebappContext webappContext = new WebappContext("API-STUDIO", ApiStudio.root);
 ////
 ////
@@ -78,6 +85,10 @@ public class ApiStudioServer {
         servletRegistration.setLoadOnStartup(1);
 
         moduleIntergrator.init(webappContext);
+
+//        webappContext.ad
+
+//        annotationFilterService.process();
 
 
         webappContext.addListener(new ServletContextListener() {
@@ -104,9 +115,12 @@ public class ApiStudioServer {
                 listener.registerAddOn(new CometAddOn());
             }
 
+            List<Class<?>> wsClassList = new ArrayList<>();
+            if (ApiStudio.modules != null) {
+                wsClassList = new ArrayList(Arrays.asList(ApiStudio.modules));
+                wsClassList.add(ApiStudio.applicationClass);
+            }
 
-            List<Class<?>> wsClassList = new ArrayList(Arrays.asList(ApiStudio.modules));
-            wsClassList.add(ApiStudio.applicationClass);
             tyrusContainer = getTyrusContainer(httpServer, wsClassList);
         } catch (DeploymentException e) {
             e.printStackTrace();
@@ -129,6 +143,7 @@ public class ApiStudioServer {
         try {
             LOGGER.info("starting on http://" + ApiStudio.host + ":" + ApiStudio.port + "/" + ApiStudio.root);
             tyrusContainer.start(ApiStudio.root, ApiStudio.port);
+//            httpServer.getServerConfiguration().setJmxEnabled(true);
 //            httpServer.start();
             LOGGER.info("Press CTRL^C to exit..");
             Thread.currentThread().join();
@@ -139,33 +154,41 @@ public class ApiStudioServer {
 
     }
 
+
     /**
-     * Creates and configures a Tyrus server container, based on an existing grizzly HTTP server
      *
-     * @return Tyrus server container.
+     * @param server
+     * @param classes
+     * @return
+     * @throws DeploymentException
+     * @throws NamingException
+     * @throws ClassNotFoundException
      */
-    public static TyrusServerContainer getTyrusContainer(HttpServer server, List<Class<?>> classes) throws DeploymentException, NamingException, ClassNotFoundException {
+    public TyrusServerContainer getTyrusContainer(HttpServer server, List<Class<?>> classes) throws DeploymentException, NamingException, ClassNotFoundException {
+
+
         TyrusServerContainer container = (TyrusServerContainer) new ApiWebSocketServerContainer(server).createContainer(null);
 
+        if (classes != null & classes.size() > 0) {
 //        container.register(.configurator(new ServerEndpointConfig.Configurator()).build());
 
 
-        for (Class<?> searchPackageClass : classes) {
+            for (Class<?> searchPackageClass : classes) {
 
-            List<String> namesOfClassesWithAnnotation = new FastClasspathScanner(searchPackageClass.getPackage().getName()).scan().getNamesOfClassesWithAnnotation(ServerEndpoint.class);
+                List<String> namesOfClassesWithAnnotation = new FastClasspathScanner(searchPackageClass.getPackage().getName()).scan().getNamesOfClassesWithAnnotation(ServerEndpoint.class);
 
 
-            Reflections reflections = new Reflections(searchPackageClass.getPackage().getName());
+//            Reflections reflections = new Reflections(searchPackageClass.getPackage().getName());
 
-            Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(ServerEndpoint.class);
-            //    LOGGER.info(typesAnnotatedWith);
-            for (String className : namesOfClassesWithAnnotation) {
-                //       LOGGER.info(Class.forName(className));
+//            Set<Class<?>> typesAnnotatedWith = reflections.getTypesAnnotatedWith(ServerEndpoint.class);
+                //    LOGGER.info(typesAnnotatedWith);
+                for (String className : namesOfClassesWithAnnotation) {
+                    //       LOGGER.info(Class.forName(className));
 
-                container.addEndpoint(Class.forName(className));
+                    container.addEndpoint(Class.forName(className));
+                }
             }
         }
-
 
 //
 

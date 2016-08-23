@@ -1,7 +1,6 @@
 package io.egreen.apistudio.datalayer.dao.impl;
 
 import com.datastax.driver.mapping.MappingSession;
-import io.egreen.apistudio.bootstrap.database.CassandraDataSource;
 import io.egreen.apistudio.datalayer.dao.DAOController;
 
 import javax.annotation.PostConstruct;

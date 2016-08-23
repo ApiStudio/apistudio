@@ -66,23 +66,32 @@ dependencies {
 
 
 // https://mvnrepository.com/artifact/org.cassandraunit/cassandra-unit
-    compile group: 'org.cassandraunit', name: 'cassandra-unit', version: '3.0.0.1'
+//    compile group: 'org.cassandraunit', name: 'cassandra-unit', version: '3.0.0.1'
 
 
-    // DATA SERVICE CASSSSENDRA
-    // https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-core
-    compile group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version: '3.1.0'
-// https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-mapping
-    compile group: 'com.datastax.cassandra', name: 'cassandra-driver-mapping', version: '3.1.0'
-// https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-extras
-    compile group: 'com.datastax.cassandra', name: 'cassandra-driver-extras', version: '3.1.0'
-    compile 'org.slf4j:slf4j-log4j12:1.7.5'
-// https://mvnrepository.com/artifact/org.eclipse.persistence/javax.persistence
-    compile group: 'org.eclipse.persistence', name: 'javax.persistence', version: '2.1.1'
+//    // DATA SERVICE CASSSSENDRA
+//    // https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-core
+//    compile group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version: '3.1.0'
+//// https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-mapping
+//    compile group: 'com.datastax.cassandra', name: 'cassandra-driver-mapping', version: '3.1.0'
+//// https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-extras
+//    compile group: 'com.datastax.cassandra', name: 'cassandra-driver-extras', version: '3.1.0'
+//    compile 'org.slf4j:slf4j-log4j12:1.7.5'
+//// https://mvnrepository.com/artifact/org.eclipse.persistence/javax.persistence
+//    compile group: 'org.eclipse.persistence', name: 'javax.persistence', version: '2.1.1'
+//
+//// https://mvnrepository.com/artifact/org.cassandraunit/cassandra-unit
+//    compile group: 'org.cassandraunit', name: 'cassandra-unit', version: '3.0.0.1'
 
-// https://mvnrepository.com/artifact/org.cassandraunit/cassandra-unit
-    compile group: 'org.cassandraunit', name: 'cassandra-unit', version: '3.0.0.1'
 
+
+    //
+    // https://mvnrepository.com/artifact/org.glassfish.grizzly/grizzly-framework-monitoring
+    compile group: 'org.glassfish.grizzly', name: 'grizzly-framework-monitoring', version: '2.3.26'
+// https://mvnrepository.com/artifact/org.glassfish.grizzly/grizzly-http-server-monitoring
+    compile group: 'org.glassfish.grizzly', name: 'grizzly-http-server-monitoring', version: '2.3.26'
+    // https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-multipart
+    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-multipart', version: '2.23.2'
 
 }
 
@@ -93,7 +102,7 @@ nexusStaging {
 
 jar {
     baseName = 'bootstrap'
-    version = '0.0.6'
+    version = '0.0.8'
 }
 javadoc {
     source = sourceSets.main.allJava

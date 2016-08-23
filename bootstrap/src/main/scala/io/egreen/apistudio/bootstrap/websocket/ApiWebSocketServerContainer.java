@@ -36,7 +36,7 @@ public class ApiWebSocketServerContainer extends ServerContainerFactory {
 
     /**
      * Server-side property to set custom worker {@link ThreadPoolConfig}.
-     * <p/>
+     *
      * Value is expected to be instance of {@link ThreadPoolConfig}, can be {@code null} (it won't be used).
      */
     public static final String WORKER_THREAD_POOL_CONFIG =
@@ -44,7 +44,7 @@ public class ApiWebSocketServerContainer extends ServerContainerFactory {
 
     /**
      * Server-side property to set custom selector {@link ThreadPoolConfig}.
-     * <p/>
+     *
      * Value is expected to be instance of {@link ThreadPoolConfig}, can be {@code null} (it won't be used).
      */
     public static final String SELECTOR_THREAD_POOL_CONFIG =

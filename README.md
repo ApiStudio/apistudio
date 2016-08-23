@@ -17,9 +17,29 @@
 
 ##**Sample Code** 
 
+build.gradle
+```
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'io.egreen.apistudio:bootstrap:0.0.8'
+}
+
+```
+
+
+
 HelloWorldApp.java
 ```
 @ApplicationPath("/")
+@MSApp(name = "rbr_device_app")
  public class HelloWorldApp { 
      public static void main(String[] args) {
          ApiStudio.boot(HelloWorldApp.class, "0.0.0.0", 4545, "/api");
