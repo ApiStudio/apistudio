@@ -4,10 +4,16 @@ import io.egreen.apistudio.bootstrap.ApiStudio;
 import io.egreen.apistudio.bootstrap.filter.CORSResponseFilter;
 import io.egreen.apistudio.bootstrap.provider.ApiStudioObjectMapperProvider;
 import io.egreen.apistudio.bootstrap.theme.ThymeleafViewProcessor;
+import io.swagger.annotations.Api;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
+import org.glassfish.jersey.server.TracingConfig;
 import org.glassfish.jersey.server.mvc.MvcFeature;
 
 import javax.annotation.PostConstruct;
@@ -18,6 +24,8 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class RestComponentInitializer {
+
+    private static final Logger LOGGER = LogManager.getLogger(RestComponentInitializer.class);
 
     private final ResourceConfig resourceConfig = new ResourceConfig();
 
@@ -33,6 +41,11 @@ public class RestComponentInitializer {
         resourceConfig.register(JacksonFeature.class);
         resourceConfig.register(ApiStudioObjectMapperProvider.class);
         resourceConfig.property(ServerProperties.MONITORING_STATISTICS_ENABLED, true);
+
+        //Logging feature
+        resourceConfig.register(new LoggingFilter());
+        // Enable Tracing support.
+        resourceConfig.property(ServerProperties.TRACING, ApiStudio.SETTINGS.TRACING);
         // HTML5 Template Engine
         resourceConfig.register(ThymeleafViewProcessor.class);
         resourceConfig.register(MvcFeature.class);
@@ -59,4 +72,6 @@ public class RestComponentInitializer {
     public ResourceConfig getResourceManager() {
         return resourceConfig;
     }
+
+
 }

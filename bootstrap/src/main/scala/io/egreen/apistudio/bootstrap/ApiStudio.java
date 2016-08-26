@@ -3,6 +3,7 @@ package io.egreen.apistudio.bootstrap;
 import io.egreen.apistudio.bootstrap.config.MSApp;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.glassfish.jersey.server.TracingConfig;
 import org.glassfish.tyrus.server.TyrusServerContainer;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
@@ -52,8 +53,9 @@ public class ApiStudio {
 
         if (aClass.isAnnotationPresent(MSApp.class)) {
             MSApp annotation = aClass.getAnnotation(MSApp.class);
+            ApiStudio.SETTINGS.TRACING = annotation.trace();
             applicationName = annotation.name();
-        }else{
+        } else {
             throw new ExceptionInInitializerError("Application not initialized with MSApp");
         }
 
@@ -104,5 +106,9 @@ public class ApiStudio {
 
     public static String getApplicationName() {
         return applicationName;
+    }
+
+    public static class SETTINGS {
+        public static String TRACING = "ALL";
     }
 }

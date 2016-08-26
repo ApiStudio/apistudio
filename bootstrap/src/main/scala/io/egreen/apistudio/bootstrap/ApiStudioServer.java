@@ -67,6 +67,10 @@ public class ApiStudioServer {
 
         resourceConfig = restComponentInitializer.getResourceManager();
 
+        //Swagger
+        resourceConfig.register(io.swagger.jaxrs.listing.ApiListingResource.class);
+        resourceConfig.register(io.swagger.jaxrs.listing.SwaggerSerializers.class);
+
 
         ServletContainer servletContainer = new ServletContainer(resourceConfig);
 

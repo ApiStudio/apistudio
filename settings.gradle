@@ -3,4 +3,6 @@ include 'bootstrap'
 //include 'console'
 include 'datalayer'
 include 'monitor'
+include 'jpa-datalayer'
+include 'mongo-datalayer'
 

@@ -1,5 +1,7 @@
 package io.egreen.apistudio.bootstrap.config;
 
+import org.glassfish.jersey.server.TracingConfig;
+
 import java.lang.annotation.*;
 
 /**
@@ -19,4 +21,5 @@ public @interface MSApp {
 
     String key() default "";
 
+    String trace() default "OFF";
 }

@@ -6,10 +6,12 @@ import io.egreen.apistudio.datalayer.mongodb.dao.DAOController;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Key;
 import org.mongodb.morphia.Morphia;
+import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
 import org.mongodb.morphia.query.UpdateResults;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 /**
  * Created by dewmal on 8/23/16.
@@ -17,7 +19,7 @@ import javax.annotation.PostConstruct;
 public class AbstractDAOController<T> implements DAOController<T> {
 
 
-    private Class<T> entityClass;
+    protected Class<T> entityClass;
 
     private Datastore datastore;
 
@@ -34,6 +36,7 @@ public class AbstractDAOController<T> implements DAOController<T> {
 
 
     public AbstractDAOController() {
+//        throw new ExceptionInInitializerError("Please overide AbstractDAOController(Class<T> entityClass)");
     }
 
     public AbstractDAOController(Class<T> entityClass) {
@@ -52,9 +55,30 @@ public class AbstractDAOController<T> implements DAOController<T> {
         datastore.delete(entityClass, key.getId());
     }
 
-    public T get(Key<T> key) {
-        return datastore.get(entityClass, key.getId());
+
+    public T get(Object key) {
+        return get("code", key);
     }
 
+    public T get(String keyName, Object key) {
+        Query<T> query = datastore.createQuery(entityClass);
+        query.filter(keyName + " =", key);
+        return query.get();
+    }
 
+    @Override
+    public List<T> getAll(int offset, int limit) {
+        Query<T> tQuery = getDatastore().createQuery(entityClass);
+        if (offset > 0) {
+            tQuery.offset(offset);
+        }
+        if (limit > 0) {
+            tQuery.limit(limit);
+        }
+        return tQuery.asList();
+    }
+
+    protected Datastore getDatastore() {
+        return datastore;
+    }
 }
