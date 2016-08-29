@@ -12,7 +12,7 @@
   <body>
     <section class="page-header">
       <h1 class="project-name">Apistudio</h1>
-      <h2 class="project-tagline"></h2>
+      <h2 class="project-tagline">A Modularize  Micro Service platform for JAVA Enterprise applications :)</h2>
       <a href="https://github.com/egreen-lab/apistudio" class="btn">View on GitHub</a>
       <a href="https://github.com/egreen-lab/apistudio/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/egreen-lab/apistudio/tarball/master" class="btn">Download .tar.gz</a>
@@ -27,6 +27,16 @@
 
 <ul>
 <li>working to get in to 1 sec</li>
+</ul>
+</li>
+<li>Features
+
+<ul>
+<li>JAX-RS - jersey ( 90% )</li>
+<li>WS - tyrus  ( 40% )</li>
+<li>Database - Cassandra ( 80% )</li>
+<li>CDI - Weld ( 95% )</li>
+<li>NIO Library - Grizzly ( 99% )</li>
 </ul>
 </li>
 <li>All in one library
@@ -44,9 +54,27 @@
 <a id="sample-code" class="anchor" href="#sample-code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Sample Code</strong>
 </h2>
 
+<p>build.gradle</p>
+
+<pre><code>version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'io.egreen.apistudio:bootstrap:0.0.8'
+}
+
+</code></pre>
+
 <p>HelloWorldApp.java</p>
 
 <pre><code>@ApplicationPath("/")
+@MSApp(name = "rbr_device_app")
  public class HelloWorldApp { 
      public static void main(String[] args) {
          ApiStudio.boot(HelloWorldApp.class, "0.0.0.0", 4545, "/api");
@@ -116,6 +144,24 @@ public class HelloServiceImpl implements HelloService {
         helloService.sayHello("dewmal");
         return new Viewable("../hello");
     }
+</code></pre>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<pre><code> Copyright 2016 egreen
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
 </code></pre>
 
       <footer class="site-footer">
