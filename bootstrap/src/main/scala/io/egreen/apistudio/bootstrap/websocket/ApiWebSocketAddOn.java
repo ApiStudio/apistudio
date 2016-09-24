@@ -15,7 +15,7 @@ public class ApiWebSocketAddOn implements AddOn {
     private final ServerContainer serverContainer;
     private final String contextPath;
 
-    ApiWebSocketAddOn(ServerContainer serverContainer, String contextPath) {
+    public ApiWebSocketAddOn(ServerContainer serverContainer, String contextPath) {
         this.serverContainer = serverContainer;
         this.contextPath = contextPath;
     }

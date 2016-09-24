@@ -1,5 +1,5 @@
 group 'io.egreen.apistudio'
-version '0.0.8'
+version '0.1.1'
 
 buildscript {
     repositories {
@@ -12,7 +12,7 @@ buildscript {
 subprojects {
     apply plugin: 'scala'
     group 'io.egreen.apistudio'
-    version '0.0.8'
+    version '0.1.1'
 
     repositories {
         mavenCentral()

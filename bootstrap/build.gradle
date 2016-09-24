@@ -42,8 +42,11 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.reflections/reflections
     compile group: 'org.reflections', name: 'reflections', version: '0.9.10'
-// https://mvnrepository.com/artifact/io.swagger/swagger-jaxrs
-    compile group: 'io.swagger', name: 'swagger-jaxrs', version: '1.5.9'
+//// https://mvnrepository.com/artifact/io.swagger/swagger-jaxrs
+//    compile group: 'io.swagger', name: 'swagger-jaxrs', version: '1.5.9'
+    // https://mvnrepository.com/artifact/io.swagger/swagger-jersey2-jaxrs
+    compile group: 'io.swagger', name: 'swagger-jersey2-jaxrs', version: '1.5.10'
+
 
     // ThymeLeaf
     // https://mvnrepository.com/artifact/org.glassfish.jersey.ext/jersey-mvc
@@ -63,26 +66,6 @@ dependencies {
     compile group: 'javax.ejb', name: 'javax.ejb-api', version: '3.2'
 // https://mvnrepository.com/artifact/io.github.lukehutch/fast-classpath-scanner
     compile group: 'io.github.lukehutch', name: 'fast-classpath-scanner', version: '2.0.1'
-
-
-// https://mvnrepository.com/artifact/org.cassandraunit/cassandra-unit
-//    compile group: 'org.cassandraunit', name: 'cassandra-unit', version: '3.0.0.1'
-
-
-//    // DATA SERVICE CASSSSENDRA
-//    // https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-core
-//    compile group: 'com.datastax.cassandra', name: 'cassandra-driver-core', version: '3.1.0'
-//// https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-mapping
-//    compile group: 'com.datastax.cassandra', name: 'cassandra-driver-mapping', version: '3.1.0'
-//// https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-extras
-//    compile group: 'com.datastax.cassandra', name: 'cassandra-driver-extras', version: '3.1.0'
-//    compile 'org.slf4j:slf4j-log4j12:1.7.5'
-//// https://mvnrepository.com/artifact/org.eclipse.persistence/javax.persistence
-//    compile group: 'org.eclipse.persistence', name: 'javax.persistence', version: '2.1.1'
-//
-//// https://mvnrepository.com/artifact/org.cassandraunit/cassandra-unit
-//    compile group: 'org.cassandraunit', name: 'cassandra-unit', version: '3.0.0.1'
-
 
 
     //

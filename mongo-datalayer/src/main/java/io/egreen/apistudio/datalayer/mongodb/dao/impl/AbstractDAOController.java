@@ -81,4 +81,9 @@ public class AbstractDAOController<T> implements DAOController<T> {
     protected Datastore getDatastore() {
         return datastore;
     }
+
+
+    protected Query<T> getQuery() {
+        return datastore.createQuery(entityClass);
+    }
 }

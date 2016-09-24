@@ -3,14 +3,11 @@ package io.egreen.apistudio.bootstrap;
 import io.egreen.apistudio.bootstrap.config.MSApp;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.glassfish.jersey.server.TracingConfig;
-import org.glassfish.tyrus.server.TyrusServerContainer;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.CDI;
-import javax.ws.rs.ApplicationPath;
 
 /**
  * Created by dewmal on 7/17/16.
@@ -21,7 +18,6 @@ public class ApiStudio {
 
     private final static ApiStudioContext CONTEXT = ApiStudioContext.getINSTANCE();
     private static WeldContainer weldContainer;
-    private static TyrusServerContainer tcontainer;
 
     private static Weld weld = null;
     private static WeldContainer container = null;
@@ -85,7 +81,6 @@ public class ApiStudio {
             Instance<ApiStudioApplication> select = CDI.current().select(ApiStudioApplication.class);
             ApiStudioApplication apiStudioApplication = select.get();
             apiStudioApplication.initialize();
-
             Thread.currentThread().join();
         } catch (Exception e) {
             LOGGER.error(
@@ -109,6 +104,6 @@ public class ApiStudio {
     }
 
     public static class SETTINGS {
-        public static String TRACING = "ALL";
+        public static String TRACING;
     }
 }
