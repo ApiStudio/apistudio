@@ -8,6 +8,7 @@ import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.grizzly.comet.CometAddOn;
+import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.NetworkListener;
 import org.glassfish.grizzly.servlet.ServletRegistration;
@@ -64,6 +65,10 @@ public class ApiStudioServer {
     void init() {
         LOGGER.info("Working server..");
         HttpServer httpServer = HttpServer.createSimpleServer(".", ApiStudio.host, ApiStudio.port);
+
+        CLStaticHttpHandler staticHttpHandler = new CLStaticHttpHandler(ApiStudio.applicationClass.getClassLoader(), "www/");
+        LOGGER.info(staticHttpHandler.getName());
+        httpServer.getServerConfiguration().addHttpHandler(staticHttpHandler, "/static");
 
         resourceConfig = restComponentInitializer.getResourceManager();
 
@@ -176,7 +181,6 @@ public class ApiStudioServer {
         TyrusServerContainer container = (TyrusServerContainer) new ApiWebSocketServerContainer(server).createContainer(null);
 
         if (classes != null & classes.size() > 0) {
-
 
 
             for (Class<?> searchPackageClass : classes) {

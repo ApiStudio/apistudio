@@ -32,6 +32,14 @@ public class AnnotationFilterService {
 
     }
 
+    /**
+     *
+     *
+     * @param packageName
+     * @param recursive
+     * @param annotationConfig
+     * @throws ClassNotFoundException
+     */
     public void process(final String packageName, final boolean recursive, AnnotationConfig annotationConfig) throws ClassNotFoundException {
 
         List<Class<?>> classes = new ArrayList<>();

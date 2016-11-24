@@ -45,7 +45,7 @@ public class ThymeleafViewProcessor implements TemplateProcessor<String> {
     private static String status = null;
 
     /**
-     * コンストラクタ
+     *
      */
     public ThymeleafViewProcessor() {
         LOGGER.info(status);
@@ -71,7 +71,7 @@ public class ThymeleafViewProcessor implements TemplateProcessor<String> {
     }
 
     /**
-     * 参照させるファイル名を解決する。
+     * 
      */
     @Override
     public String resolve(String name, MediaType mediaType) {
@@ -87,8 +87,7 @@ public class ThymeleafViewProcessor implements TemplateProcessor<String> {
 
         WebContext context = new WebContext(request, response, servletContext);
 
-        //HTML内でモデルオブジェクトを使用できるようにしている。
-        //ここはモデル名をそのまま使用できるようにした方が良い。
+      
         context.setVariable("item", viewable.getModel());
 
         Writer writer = new OutputStreamWriter(out);

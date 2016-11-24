@@ -5,4 +5,6 @@ include 'datalayer'
 include 'monitor'
 include 'jpa-datalayer'
 include 'mongo-datalayer'
+include 'apistudio_sample'
+findProject(':apistudio_sample')?.name = 'io.egreen.apistudio.sample'
 

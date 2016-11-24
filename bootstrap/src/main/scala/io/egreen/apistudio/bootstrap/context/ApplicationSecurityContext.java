@@ -6,6 +6,9 @@ import javax.ws.rs.core.SecurityContext;
 import java.security.Principal;
 
 /**
+ *
+ * Manage
+ *
  * Created by dewmal on 7/19/16.
  */
 public class ApplicationSecurityContext implements SecurityContext {

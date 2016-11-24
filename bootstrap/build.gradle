@@ -110,6 +110,15 @@ publishing {
         }
     }
 }
+
+
+//build.dependsOn(copyToLib)
+
+task copyToLib(type: Copy) {
+    into "$buildDir/output/libs"
+    from configurations.runtime
+}
+
 publishing {
     repositories {
         maven {

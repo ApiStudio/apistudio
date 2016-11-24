@@ -13,6 +13,7 @@ import org.glassfish.jersey.server.mvc.Viewable;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -33,6 +34,7 @@ public class HelloApiSample {
 
 
     @Inject
+    @Named("")
     private HelloService helloService;
 
 
