@@ -31,6 +31,14 @@ public class ApiStudio {
     private static String applicationName;
 
 
+    /**
+     *
+     * Injectors Buildup
+     *
+     * @param applicationClass
+     * @param classes
+     * @return
+     */
     public static WeldContainer getWeldContainer(Class<?> applicationClass, Class<?>... classes) {
         if (container == null) {
             weld = new Weld();

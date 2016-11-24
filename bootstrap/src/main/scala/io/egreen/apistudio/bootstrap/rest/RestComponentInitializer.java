@@ -5,6 +5,7 @@ import io.egreen.apistudio.bootstrap.filter.CORSResponseFilter;
 import io.egreen.apistudio.bootstrap.provider.ApiStudioObjectMapperProvider;
 import io.egreen.apistudio.bootstrap.theme.ThymeleafViewProcessor;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.concurrent.ConcurrentRuntimeException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.filter.LoggingFilter;
@@ -18,6 +19,10 @@ import org.glassfish.jersey.server.mvc.MvcFeature;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
+import java.util.*;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by dewmal on 8/20/16.
@@ -57,15 +62,28 @@ public class RestComponentInitializer {
     }
 
 
+    /**
+     * Initializing Modules in jax.rs modules
+     */
     private void initModules() {
-        Class<?>[] modules = ApiStudio.modules;
-        if (modules != null && modules.length > 0) {
-            for (Class<?> module : modules) {
+        Queue<Class<?>> modules = new ArrayDeque<>();
+
+        modules.add(ApiStudio.applicationClass);
+
+        if (ApiStudio.modules != null && ApiStudio.modules.length > 0)
+            modules.addAll(Arrays.asList(ApiStudio.modules));
+        if (modules != null && modules.size() > 0) {
+
+            while (!modules.isEmpty()) {
+                Class<?> module = modules.remove();
                 if (module != null) {
                     resourceConfig.packages(true, module.getPackage().getName());
                 }
             }
+
         }
+
+
     }
 
 
