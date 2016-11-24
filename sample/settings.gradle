@@ -1,4 +1,0 @@
-rootProject.name = 'sample'
-include 'helloworld'
-include 'helloworld2'
-
