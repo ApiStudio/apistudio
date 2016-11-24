@@ -73,7 +73,6 @@ public class RestComponentInitializer {
         if (ApiStudio.modules != null && ApiStudio.modules.length > 0)
             modules.addAll(Arrays.asList(ApiStudio.modules));
 
-
         if (modules != null && modules.size() > 0) {
 
             while (!modules.isEmpty()) {
