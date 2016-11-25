@@ -21,5 +21,9 @@ public @interface MSApp {
 
     String key() default "";
 
-    String trace() default "OFF";
+    TracingConfig trace() default TracingConfig.OFF;
+
+    int logLevel() default -1;
+
+
 }

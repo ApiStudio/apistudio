@@ -28,10 +28,7 @@ public class ApiStudioApplication {
     }
 
     private void initializeComponents() {
-
-
         apiStudioServer.init();
-
     }
 
 }

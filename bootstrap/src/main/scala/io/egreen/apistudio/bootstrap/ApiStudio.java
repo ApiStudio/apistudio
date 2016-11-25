@@ -3,11 +3,13 @@ package io.egreen.apistudio.bootstrap;
 import io.egreen.apistudio.bootstrap.config.MSApp;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.glassfish.jersey.server.TracingConfig;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.CDI;
+import java.util.logging.Level;
 
 /**
  * Created by dewmal on 7/17/16.
@@ -32,7 +34,6 @@ public class ApiStudio {
 
 
     /**
-     *
      * Injectors Buildup
      *
      * @param applicationClass
@@ -58,6 +59,32 @@ public class ApiStudio {
         if (aClass.isAnnotationPresent(MSApp.class)) {
             MSApp annotation = aClass.getAnnotation(MSApp.class);
             ApiStudio.SETTINGS.TRACING = annotation.trace();
+
+            switch (annotation.logLevel()) {
+
+                case Integer.MIN_VALUE: {
+                    ApiStudio.SETTINGS.LOG_LEVEL = Level.ALL;
+                }
+                break;
+                case 500: {
+                    ApiStudio.SETTINGS.LOG_LEVEL = Level.FINE;
+                }
+                break;
+                case 800: {
+                    ApiStudio.SETTINGS.LOG_LEVEL = Level.INFO;
+                }
+
+                break;
+                case 900: {
+                    ApiStudio.SETTINGS.LOG_LEVEL = Level.WARNING;
+                }
+                break;
+                default: {
+                    ApiStudio.SETTINGS.LOG_LEVEL = Level.OFF;
+                }
+            }
+
+
             applicationName = annotation.name();
         } else {
             throw new ExceptionInInitializerError("Application not initialized with MSApp");
@@ -112,6 +139,7 @@ public class ApiStudio {
     }
 
     public static class SETTINGS {
-        public static String TRACING;
+        public static TracingConfig TRACING;
+        public static Level LOG_LEVEL;
     }
 }
