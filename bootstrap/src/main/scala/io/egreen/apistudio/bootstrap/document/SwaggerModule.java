@@ -18,6 +18,7 @@ public class SwaggerModule {
 
     public void init(WebappContext webappContext) {
         ServletRegistration swagger = webappContext.addServlet("Swagger", SwaggerBootstrap.class);
+        swagger.setInitParameter("info.title","Sample");
         swagger.setInitParameter("host", ApiStudio.host + ":" + ApiStudio.port);
         swagger.setInitParameter("path", ApiStudio.root);
         swagger.setInitParameter("res", ApiStudio.applicationClass.getPackage().getName());

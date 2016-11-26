@@ -39,6 +39,8 @@ public class RestComponentInitializer {
         resourceConfig.packages(true, ApiStudio.applicationClass.getPackage().getName());
 //        resourceConfig.register(LoggingFeature.class);
 //        resourceConfig.register(new LoggingFilter());
+
+
         resourceConfig.register(new LoggingFeature(java.util.logging.Logger.getLogger(LoggingFeature.DEFAULT_LOGGER_NAME),
                 ApiStudio.SETTINGS.LOG_LEVEL
                 , LoggingFeature.Verbosity.PAYLOAD_ANY, Integer.MAX_VALUE));
@@ -54,10 +56,8 @@ public class RestComponentInitializer {
         // HTML5 Template Engine
         resourceConfig.register(ThymeleafViewProcessor.class);
         resourceConfig.register(MvcFeature.class);
-
         resourceConfig.packages("org.glassfish.jersey.examples.multipart")
                 .register(MultiPartFeature.class);
-
         initModules();
     }
 

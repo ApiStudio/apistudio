@@ -66,15 +66,21 @@ public class ApiStudioServer {
         LOGGER.info("Working server..");
         HttpServer httpServer = HttpServer.createSimpleServer(".", ApiStudio.host, ApiStudio.port);
 
-        CLStaticHttpHandler staticHttpHandler = new CLStaticHttpHandler(ApiStudio.applicationClass.getClassLoader(), "www/");
-        LOGGER.info(staticHttpHandler.getName());
+        CLStaticHttpHandler staticHttpHandler = new CLStaticHttpHandler(ApiStudio.applicationClass.getClassLoader(), "static/");
         httpServer.getServerConfiguration().addHttpHandler(staticHttpHandler, "/static");
+
+
+
+
 
         resourceConfig = restComponentInitializer.getResourceManager();
 
         //Swagger
         resourceConfig.register(io.swagger.jaxrs.listing.ApiListingResource.class);
         resourceConfig.register(io.swagger.jaxrs.listing.SwaggerSerializers.class);
+
+        CLStaticHttpHandler swaggerHttpHandler = new CLStaticHttpHandler(ApiStudio.applicationClass.getClassLoader(), "swagger/");
+        httpServer.getServerConfiguration().addHttpHandler(swaggerHttpHandler, "/swagger");
 
 
         ServletContainer servletContainer = new ServletContainer(resourceConfig);
