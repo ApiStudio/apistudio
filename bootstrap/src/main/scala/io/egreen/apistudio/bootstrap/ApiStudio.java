@@ -18,7 +18,6 @@ public class ApiStudio {
 
     private final static Logger LOGGER = LogManager.getLogger(ApiStudio.class);
 
-    private final static ApiStudioContext CONTEXT = ApiStudioContext.getINSTANCE();
     private static WeldContainer weldContainer;
 
     private static Weld weld = null;
@@ -55,6 +54,12 @@ public class ApiStudio {
 
 
     public static void boot(Class<?> aClass, String host, int port, String root, Class<?>... modules) {
+        ApiStudio.applicationClass = aClass;
+        ApiStudio.host = host;
+        ApiStudio.port = port;
+        ApiStudio.root = root;
+        ApiStudio.modules = modules;
+        initApiContext();
 
         if (aClass.isAnnotationPresent(MSApp.class)) {
             MSApp annotation = aClass.getAnnotation(MSApp.class);
@@ -91,11 +96,7 @@ public class ApiStudio {
         }
 
 
-        ApiStudio.applicationClass = aClass;
-        ApiStudio.host = host;
-        ApiStudio.port = port;
-        ApiStudio.root = root;
-        ApiStudio.modules = modules;
+
 
 
         LOGGER.info("API-STUDIO STARTED...");
@@ -121,6 +122,15 @@ public class ApiStudio {
             LOGGER.error(
                     "There was an error while starting Grizzly HTTP server.", e);
         }
+    }
+
+    private static void initApiContext() {
+
+        ApiStudioContext.getINSTANCE().put(ApiStudioContext.CONTENT.HOST, host);
+        ApiStudioContext.getINSTANCE().put(ApiStudioContext.CONTENT.NAME, applicationName);
+        ApiStudioContext.getINSTANCE().put(ApiStudioContext.CONTENT.PORT, port);
+        ApiStudioContext.getINSTANCE().put(ApiStudioContext.CONTENT.ROOT, root);
+
     }
 
 

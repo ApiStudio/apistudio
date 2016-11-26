@@ -7,4 +7,5 @@ include 'jpa-datalayer'
 include 'mongo-datalayer'
 include 'apistudio_sample'
 findProject(':apistudio_sample')?.name = 'io.egreen.apistudio.sample'
+include 'swagger-ui-module'
 

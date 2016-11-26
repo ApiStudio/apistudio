@@ -1,26 +1,19 @@
 package io.egreen.apistudio.bootstrap;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by dewmal on 8/11/16.
  */
-public class ApiStudioContext {
+public class ApiStudioContext extends Properties {
 
-    private static final List<Class<?>> BEANCLASSES = new ArrayList<>();
 
     private static ApiStudioContext INSTANCE;
 
 
     private ApiStudioContext() {
-
     }
 
-
-    public void register(Class<?> aClass) {
-        BEANCLASSES.add(aClass);
-    }
 
     public static ApiStudioContext getINSTANCE() {
         if (INSTANCE == null) {
@@ -29,5 +22,9 @@ public class ApiStudioContext {
         return INSTANCE;
     }
 
+
+    public enum CONTENT {
+        ROOT, HOST, PORT, NAME
+    }
 
 }

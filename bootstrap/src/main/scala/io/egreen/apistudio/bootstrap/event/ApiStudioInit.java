@@ -1,6 +1,5 @@
 package io.egreen.apistudio.bootstrap.event;
 
-import io.egreen.apistudio.bootstrap.ApiStudio;
 import io.egreen.apistudio.bootstrap.ApiStudioContext;
 
 /**
