@@ -1,0 +1,16 @@
+group 'io.egreen.apistudio'
+
+apply plugin: 'java'
+apply plugin: 'scala'
+
+//sourceCompatibility = 1.5
+
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':bootstrap')
+}

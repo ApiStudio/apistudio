@@ -1,6 +1,7 @@
 package io.egreen.apistudio.bootstrap;
 
 import io.egreen.apistudio.bootstrap.config.processor.AnnotationFilterService;
+import io.egreen.apistudio.bootstrap.module.Module;
 import io.egreen.apistudio.bootstrap.module.ModuleIntergrator;
 import io.egreen.apistudio.bootstrap.rest.RestComponentInitializer;
 import io.egreen.apistudio.bootstrap.websocket.ApiWebSocketServerContainer;
@@ -35,6 +36,8 @@ import javax.websocket.Extension;
 import javax.websocket.server.ServerApplicationConfig;
 import javax.websocket.server.ServerEndpoint;
 import javax.websocket.server.ServerEndpointConfig;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
@@ -66,11 +69,20 @@ public class ApiStudioServer {
         LOGGER.info("Working server..");
         HttpServer httpServer = HttpServer.createSimpleServer(".", ApiStudio.host, ApiStudio.port);
 
+
         CLStaticHttpHandler staticHttpHandler = new CLStaticHttpHandler(ApiStudio.applicationClass.getClassLoader(), "static/");
         httpServer.getServerConfiguration().addHttpHandler(staticHttpHandler, "/static");
 
 
-
+//        for (Class<?> module : ApiStudio.modules) {
+//
+//            Module moduleAnnotation = module.getAnnotation(Module.class);
+//            if (moduleAnnotation != null && moduleAnnotation.enableStaticFolder()) {
+//                System.out.println(module.getResource("resources/"));
+//                CLStaticHttpHandler staticModuleHttpHandler = new CLStaticHttpHandler(new URLClassLoader(new URL[]{}), "static/");
+//                httpServer.getServerConfiguration().addHttpHandler(staticModuleHttpHandler, "/" + moduleAnnotation.name() + "/static");
+//            }
+//        }
 
 
         resourceConfig = restComponentInitializer.getResourceManager();
@@ -79,17 +91,14 @@ public class ApiStudioServer {
         resourceConfig.register(io.swagger.jaxrs.listing.ApiListingResource.class);
         resourceConfig.register(io.swagger.jaxrs.listing.SwaggerSerializers.class);
 
-        CLStaticHttpHandler swaggerHttpHandler = new CLStaticHttpHandler(ApiStudio.applicationClass.getClassLoader(), "swagger/");
-        httpServer.getServerConfiguration().addHttpHandler(swaggerHttpHandler, "/swagger");
-
 
         ServletContainer servletContainer = new ServletContainer(resourceConfig);
 
 
-        WebappContext webappContext = new WebappContext("API-STUDIO", ApiStudio.root);
+        WebappContext webappContext = new WebappContext("API-STUDIO", "/" + ApiStudio.root);
 ////
 ////
-        webappContext.setAttribute("root", ApiStudio.root);
+        webappContext.setAttribute("root", "/" + ApiStudio.root);
 ////
 //
 //

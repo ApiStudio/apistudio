@@ -54,12 +54,7 @@ public class ApiStudio {
 
 
     public static void boot(Class<?> aClass, String host, int port, String root, Class<?>... modules) {
-        ApiStudio.applicationClass = aClass;
-        ApiStudio.host = host;
-        ApiStudio.port = port;
-        ApiStudio.root = root;
-        ApiStudio.modules = modules;
-        initApiContext();
+
 
         if (aClass.isAnnotationPresent(MSApp.class)) {
             MSApp annotation = aClass.getAnnotation(MSApp.class);
@@ -91,6 +86,12 @@ public class ApiStudio {
 
 
             applicationName = annotation.name();
+            ApiStudio.applicationClass = aClass;
+            ApiStudio.host = host;
+            ApiStudio.port = port;
+            ApiStudio.root = root;
+            ApiStudio.modules = modules;
+            initApiContext();
         } else {
             throw new ExceptionInInitializerError("Application not initialized with MSApp");
         }

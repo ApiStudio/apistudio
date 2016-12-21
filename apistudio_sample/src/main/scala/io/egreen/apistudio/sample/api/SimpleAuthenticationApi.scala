@@ -16,7 +16,7 @@ class SimpleAuthenticationApi {
   @ApiOperation("/version")
   @GET
   def authGetVersion(): Response = {
-    return Response.ok().build()
+    return Response.ok("V1").build()
   }
 
 }

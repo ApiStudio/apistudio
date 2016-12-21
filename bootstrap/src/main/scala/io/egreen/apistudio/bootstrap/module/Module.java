@@ -9,7 +9,9 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Module {
 
-    String name() ;
+    String name();
+
+    boolean enableStaticFolder() default false;
 
 
 }

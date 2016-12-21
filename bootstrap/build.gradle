@@ -87,7 +87,7 @@ nexusStaging {
 
 jar {
     baseName = 'bootstrap'
-    version = '0.0.8'
+    version = '0.1.3'
 }
 javadoc {
     source = sourceSets.main.allJava

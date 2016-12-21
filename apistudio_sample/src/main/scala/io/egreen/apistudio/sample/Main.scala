@@ -14,7 +14,7 @@ import org.glassfish.jersey.server.TracingConfig
 class Main {
 
   def init(): Unit = {
-    ApiStudio.boot(classOf[Main], "0.0.0.0", 7845, "/apistudio_sample")
+    ApiStudio.boot(classOf[Main], "0.0.0.0", 7845, "apistudio_sample")
   }
 }
 

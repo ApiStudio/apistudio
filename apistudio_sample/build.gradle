@@ -10,8 +10,17 @@ apply plugin: 'scala'
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
-    compile project(':bootstrap')
+    compile 'io.egreen.apistudio:bootstrap:0.1.4'
+
+//    compile project(':bootstrap')
+//    compile project(':swagger-ui-module')
+}
+
+task execute(type:JavaExec) {
+    main = mainClass
+    classpath = sourceSets.main.runtimeClasspath
 }
